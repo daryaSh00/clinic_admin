@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">جدول ریسپانسیو</h3>
+
+                <div class="box-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control pull-right" placeholder="جستجو">
+
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>محتوا</th>
+                            <th>توضیحات</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblCmmn">
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $.post("/Home/getCmmn")
+            .done(function (res) {
+                if (res.state == true) {
+                    $("#tblCmmn").empty();
+                    for (var item in res.m) {
+
+                        $("#tblCmmn").append(
+                            '<tr>' +
+                            '<td>' + res.m[item].name + '</td>' +
+                            '<td>' + res.m[item].itmContent + '</td>' +
+                            '<td>' + res.m[item].description + '</td>' +
+                            '<td>' + '<button id="' + res.m[item].pkID + '" class = btn btn-warning"> ویرایش </button>' + '</td>' +
+                            '</tr>'
+                        );
+       
+                    }
+                }
+            })
+            .fail(function () { })
+            .always(function () { });
+    </script>
+    }
+
